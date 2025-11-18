@@ -193,7 +193,8 @@ class OCIOpenSearchANN(BaseANN):
                         "dimension": dimension,
                         "method": {
                             "name": "hnsw",
-                            "engine": self.config.get("engine", "nmslib"),
+                            # Use FAISS engine by default; can be overridden via config["engine"].
+                            "engine": self.config.get("engine", "faiss"),
                             "space_type": "innerproduct",
                             "parameters": {
                                 "ef_construction": self.ef_construction,
