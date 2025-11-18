@@ -56,6 +56,7 @@ class OCIOpenSearchANN(BaseANN):
 
         self.hnsw_m = int(self.config.get("hnsw_m", 16))
         self.ef_construction = int(self.config.get("ef_construction", 100))
+        self.engine = self.config.get("engine", "faiss")
 
         self.verify_certs = bool(self.config.get("verify_certs", True))
         self.ca_certs = self.config.get("ca_certs")
@@ -137,7 +138,8 @@ class OCIOpenSearchANN(BaseANN):
     def query(self, X, k):
         if not self.index_name:
             raise RuntimeError("Index not initialized. Call fit() first.")
-        if self.num_candidates < k:
+        engine_uses_candidates = self.engine.lower() != "faiss"
+        if engine_uses_candidates and self.num_candidates < k:
             raise ValueError(f"num_candidates ({self.num_candidates}) must be >= k ({k}).")
 
         nq = X.shape[0]
@@ -149,15 +151,18 @@ class OCIOpenSearchANN(BaseANN):
             ndjson_parts: List[str] = []
             for vec in chunk:
                 ndjson_parts.append(json.dumps({"index": self.index_name}))
+                knn_field = {
+                    "vector": vec.astype(np.float32).tolist(),
+                    "k": k,
+                }
+                if engine_uses_candidates:
+                    knn_field["num_candidates"] = self.num_candidates
+
                 ndjson_parts.append(json.dumps({
                     "size": k,
                     "query": {
                         "knn": {
-                            self.vector_field: {
-                                "vector": vec.astype(np.float32).tolist(),
-                                "k": k,
-                                "num_candidates": self.num_candidates,
-                            }
+                            self.vector_field: knn_field
                         }
                     }
                 }))
@@ -211,8 +216,7 @@ class OCIOpenSearchANN(BaseANN):
                         "dimension": dimension,
                         "method": {
                             "name": "hnsw",
-                            # Use FAISS engine by default; can be overridden via config["engine"].
-                            "engine": self.config.get("engine", "faiss"),
+                            "engine": self.engine,
                             "space_type": "innerproduct",
                             "parameters": {
                                 "ef_construction": self.ef_construction,
