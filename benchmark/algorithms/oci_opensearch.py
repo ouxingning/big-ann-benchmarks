@@ -171,7 +171,13 @@ class OCIOpenSearchANN(BaseANN):
     # Helpers --------------------------------------------------------------------
     def _build_index_name(self, dataset: str) -> str:
         timestamp = int(time.time())
-        return f"{self.index_prefix}-{dataset}-{timestamp}"
+        base = f"{self.index_prefix}-{dataset}-{timestamp}".lower()
+        # OpenSearch index name rules: lowercase, and only letters, digits, - _ .
+        safe = "".join(
+            c if (c.isalnum() or c in "-_.") else "-"
+            for c in base
+        )
+        return safe
 
     def _create_index(self, dimension: int):
         settings = {
