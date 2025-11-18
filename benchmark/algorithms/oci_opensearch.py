@@ -39,7 +39,9 @@ class OCIOpenSearchANN(BaseANN):
 
     def __init__(self, metric: str, index_config: Dict):
         if metric != "ip":
-            raise ValueError("OCI OpenSearch adapter currently supports only inner product (ip).")
+            raise ValueError(
+                "OCI OpenSearch adapter currently supports only inner product (ip)."
+            )
         self.metric = metric
         self.config = index_config or {}
 
@@ -50,7 +52,9 @@ class OCIOpenSearchANN(BaseANN):
         self.vector_field = self.config.get("vector_field", "embedding")
         self.index_prefix = self.config.get("index_prefix", "oci-opensearch")
         self.bulk_chunk_size = int(self.config.get("bulk_chunk_size", 2048))
-        self.ingest_workers = int(self.config.get("ingest_workers", os.cpu_count() or 4))
+        self.ingest_workers = int(
+            self.config.get("ingest_workers", os.cpu_count() or 4)
+        )
         self.request_timeout = int(self.config.get("request_timeout", 120))
         self.query_batch_size = int(self.config.get("query_batch_size", 32))
 
@@ -85,7 +89,9 @@ class OCIOpenSearchANN(BaseANN):
     def _create_client(self) -> OpenSearch:
         parsed = urlparse(self.endpoint)
         if not parsed.scheme or not parsed.hostname:
-            raise ValueError(f"Endpoint '{self.endpoint}' must include scheme and host.")
+            raise ValueError(
+                f"Endpoint '{self.endpoint}' must include scheme and host."
+            )
         host_entry = {
             "host": parsed.hostname,
             "port": parsed.port or (443 if parsed.scheme == "https" else 80),
@@ -123,7 +129,9 @@ class OCIOpenSearchANN(BaseANN):
         return False
 
     def index_files_to_store(self, dataset):
-        raise NotImplementedError("Cloud index storage is not supported for OpenSearch runs.")
+        raise NotImplementedError(
+            "Cloud index storage is not supported for OpenSearch runs."
+        )
 
     def set_query_arguments(self, *query_args):
         for arg in query_args:
@@ -141,14 +149,16 @@ class OCIOpenSearchANN(BaseANN):
             raise RuntimeError("Index not initialized. Call fit() first.")
         engine_uses_candidates = self.engine.lower() != "faiss"
         if engine_uses_candidates and self.num_candidates < k:
-            raise ValueError(f"num_candidates ({self.num_candidates}) must be >= k ({k}).")
+            raise ValueError(
+                f"num_candidates ({self.num_candidates}) must be >= k ({k})."
+            )
 
         nq = X.shape[0]
         results = -np.ones((nq, k), dtype=np.int32)
 
         batch = self.query_batch_size
         for start in range(0, nq, batch):
-            chunk = X[start:start + batch]
+            chunk = X[start : start + batch]
             ndjson_parts: List[str] = []
             for vec in chunk:
                 ndjson_parts.append(json.dumps({"index": self.index_name}))
@@ -159,14 +169,11 @@ class OCIOpenSearchANN(BaseANN):
                 if engine_uses_candidates:
                     knn_field["num_candidates"] = self.num_candidates
 
-                ndjson_parts.append(json.dumps({
-                    "size": k,
-                    "query": {
-                        "knn": {
-                            self.vector_field: knn_field
-                        }
-                    }
-                }))
+                ndjson_parts.append(
+                    json.dumps(
+                        {"size": k, "query": {"knn": {self.vector_field: knn_field}}}
+                    )
+                )
             body = "\n".join(ndjson_parts) + "\n"
             try:
                 response = self.client.msearch(
@@ -197,18 +204,17 @@ class OCIOpenSearchANN(BaseANN):
         timestamp = int(time.time())
         base = f"{self.index_prefix}-{dataset}-{timestamp}".lower()
         # OpenSearch index name rules: lowercase, and only letters, digits, - _ .
-        safe = "".join(
-            c if (c.isalnum() or c in "-_.") else "-"
-            for c in base
-        )
+        safe = "".join(c if (c.isalnum() or c in "-_.") else "-" for c in base)
         return safe
 
     def _create_index(self, dimension: int):
         settings = {
             "settings": {
                 "number_of_shards": int(self.config.get("shards", 4)),
-                "number_of_replicas": int(self.config.get("replicas", 1)),
+                "number_of_replicas": int(self.config.get("replicas", 0)),
                 "knn": True,
+                "refresh_interval": "-1",
+                "translog.durability": "async",
             },
             "mappings": {
                 "properties": {
@@ -246,9 +252,7 @@ class OCIOpenSearchANN(BaseANN):
                         "_op_type": "index",
                         "_index": self.index_name,
                         "_id": str(doc_id),
-                        "_source": {
-                            self.vector_field: row.tolist()
-                        }
+                        "_source": {self.vector_field: row.tolist()},
                     }
                     doc_id += 1
 
@@ -264,4 +268,3 @@ class OCIOpenSearchANN(BaseANN):
                 successes += 1
         self.client.indices.refresh(index=self.index_name)
         print(f"Ingest complete. Total bulk chunks acknowledged: {successes}")
-
