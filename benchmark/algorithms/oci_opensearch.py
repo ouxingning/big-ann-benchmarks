@@ -66,6 +66,7 @@ class OCIOpenSearchANN(BaseANN):
 
         self.num_candidates = int(self.config.get("default_num_candidates", 200))
         self._results = None
+        self.name = self.config.get("name", "oci-opensearch")
 
     def _resolve_secret(self, key: str) -> str:
         """Allow passing literal values or env variable indirection."""
