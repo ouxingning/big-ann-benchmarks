@@ -103,6 +103,14 @@ class OCIOpenSearchANN(BaseANN):
     # BaseANN API ----------------------------------------------------------------
     def fit(self, dataset: str):
         ds = DATASETS[dataset]()
+        # Ensure base vectors are downloaded. The global prepare() call in main
+        # skips large base files to save time, so we lazily fetch them here if
+        # they are missing.
+        try:
+            ds.get_dataset_fn()
+        except RuntimeError:
+            print("Base vectors not found locally. Downloading...")
+            ds.prepare(skip_data=False)
         self.index_name = self._build_index_name(dataset)
         self._create_index(ds.d)
         self._ingest_dataset(ds)
