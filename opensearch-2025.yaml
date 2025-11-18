@@ -8,12 +8,12 @@ msmarco-1M:
       hnsw:
         args: |
           [
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":8,"query_batch_size":32,"hnsw_m":16,"ef_construction":50},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":8,"query_batch_size":32,"hnsw_m":16,"ef_construction":100},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":8,"query_batch_size":32,"hnsw_m":16,"ef_construction":200},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":8,"query_batch_size":32,"hnsw_m":32,"ef_construction":50},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":8,"query_batch_size":32,"hnsw_m":32,"ef_construction":100},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":8,"query_batch_size":32,"hnsw_m":32,"ef_construction":200}
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":12,"request_timeout":600,"query_batch_size":32,"hnsw_m":16,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":2048","ingest_workers":12,"request_timeout":600,"query_batch_size":32,"hnsw_m":16,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":12,"request_timeout":600,"query_batch_size":32,"hnsw_m":16,"ef_construction":200},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":12,"request_timeout":600,"query_batch_size":32,"hnsw_m":32,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":12,"request_timeout":600,"query_batch_size":32,"hnsw_m":32,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":12,"request_timeout":600,"query_batch_size":32,"hnsw_m":32,"ef_construction":200}
           ]
         query-args: |
           [
@@ -32,12 +32,12 @@ msmarco-100M:
       hnsw:
         args: |
           [
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":16,"ef_construction":50},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":16,"ef_construction":100},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":16,"ef_construction":200},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":32,"ef_construction":50},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":32,"ef_construction":100},
-            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":32,"ef_construction":200}
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":16,"request_timeout":600,"query_batch_size":64,"hnsw_m":16,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":16,"request_timeout":600,"query_batch_size":64,"hnsw_m":16,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":16,"request_timeout":600,"query_batch_size":64,"hnsw_m":16,"ef_construction":200},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":16,"request_timeout":600,"query_batch_size":64,"hnsw_m":32,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":16,"request_timeout":600,"query_batch_size":64,"hnsw_m":32,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":2048,"ingest_workers":16,"request_timeout":600,"query_batch_size":64,"hnsw_m":32,"ef_construction":200}
           ]
         query-args: |
           [
