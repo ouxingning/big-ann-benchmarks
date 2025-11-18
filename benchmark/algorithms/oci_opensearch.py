@@ -153,10 +153,11 @@ class OCIOpenSearchANN(BaseANN):
                     "size": k,
                     "query": {
                         "knn": {
-                            "field": self.vector_field,
-                            "query_vector": vec.astype(np.float32).tolist(),
-                            "k": k,
-                            "num_candidates": self.num_candidates,
+                            self.vector_field: {
+                                "vector": vec.astype(np.float32).tolist(),
+                                "k": k,
+                                "num_candidates": self.num_candidates,
+                            }
                         }
                     }
                 }))
