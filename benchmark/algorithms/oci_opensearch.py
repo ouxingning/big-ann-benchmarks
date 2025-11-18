@@ -1,3 +1,4 @@
+import json
 import os
 import time
 from typing import Dict, List, Optional
@@ -145,10 +146,10 @@ class OCIOpenSearchANN(BaseANN):
         batch = self.query_batch_size
         for start in range(0, nq, batch):
             chunk = X[start:start + batch]
-            body: List[Dict] = []
+            ndjson_parts: List[str] = []
             for vec in chunk:
-                body.append({"index": self.index_name})
-                body.append({
+                ndjson_parts.append(json.dumps({"index": self.index_name}))
+                ndjson_parts.append(json.dumps({
                     "size": k,
                     "query": {
                         "knn": {
@@ -158,7 +159,8 @@ class OCIOpenSearchANN(BaseANN):
                             "num_candidates": self.num_candidates,
                         }
                     }
-                })
+                }))
+            body = "\n".join(ndjson_parts) + "\n"
             response = self.client.msearch(body=body, request_timeout=self.request_timeout)
             if "responses" not in response:
                 raise RuntimeError(f"Unexpected msearch response: {response}")
