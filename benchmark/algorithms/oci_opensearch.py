@@ -161,7 +161,14 @@ class OCIOpenSearchANN(BaseANN):
                     }
                 }))
             body = "\n".join(ndjson_parts) + "\n"
-            response = self.client.msearch(body=body, request_timeout=self.request_timeout)
+            try:
+                response = self.client.msearch(
+                    body=body,
+                    request_timeout=self.request_timeout,
+                    headers={"content-type": "application/x-ndjson"},
+                )
+            except Exception as exc:
+                raise RuntimeError(f"OpenSearch msearch failed: {exc}") from exc
             if "responses" not in response:
                 raise RuntimeError(f"Unexpected msearch response: {response}")
             for offset, resp in enumerate(response["responses"]):
