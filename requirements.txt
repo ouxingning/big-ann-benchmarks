@@ -9,3 +9,4 @@ scipy==1.0.0
 scikit-learn==0.19.1
 jinja2==2.11.3
 pandas
+opensearch-py==2.6.0

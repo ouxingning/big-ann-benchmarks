@@ -1,0 +1,48 @@
+msmarco-1M:
+  oci-opensearch:
+    docker-tag: oci-opensearch-local
+    module: benchmark.algorithms.oci_opensearch
+    constructor: OCIOpenSearchANN
+    base-args: ["ip"]
+    run-groups:
+      hnsw:
+        args: |
+          [
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":1024,"ingest_workers":8,"query_batch_size":32,"hnsw_m":16,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":1024,"ingest_workers":8,"query_batch_size":32,"hnsw_m":16,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":1024,"ingest_workers":8,"query_batch_size":32,"hnsw_m":16,"ef_construction":200},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":1024,"ingest_workers":8,"query_batch_size":32,"hnsw_m":32,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":1024,"ingest_workers":8,"query_batch_size":32,"hnsw_m":32,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-1m","vector_field":"embedding","bulk_chunk_size":1024,"ingest_workers":8,"query_batch_size":32,"hnsw_m":32,"ef_construction":200}
+          ]
+        query-args: |
+          [
+            "num_candidates=50",
+            "num_candidates=100",
+            "num_candidates=200"
+          ]
+
+msmarco-100M:
+  oci-opensearch:
+    docker-tag: oci-opensearch-local
+    module: benchmark.algorithms.oci_opensearch
+    constructor: OCIOpenSearchANN
+    base-args: ["ip"]
+    run-groups:
+      hnsw:
+        args: |
+          [
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":16,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":16,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":16,"ef_construction":200},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":32,"ef_construction":50},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":32,"ef_construction":100},
+            {"endpoint_env":"OPENSEARCH_ENDPOINT","username_env":"OPENSEARCH_USERNAME","password_env":"OPENSEARCH_PASSWORD","index_prefix":"oci-msmarco-100m","vector_field":"embedding","bulk_chunk_size":4096,"ingest_workers":16,"query_batch_size":64,"hnsw_m":32,"ef_construction":200}
+          ]
+        query-args: |
+          [
+            "num_candidates=50",
+            "num_candidates=100",
+            "num_candidates=200"
+          ]
+
